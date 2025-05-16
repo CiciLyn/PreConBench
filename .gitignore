@@ -1,0 +1,67 @@
+# 忽略 results 目录下的所有内容
+result/
+results/
+.vscode/
+*.log
+figures/
+data/webui/
+data/bench_data/annotations/
+data/prompts/query.py
+test_amibo/
+webui/
+webui_judge/
+# Python 相关
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# IDE 相关
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+
+# 本地配置文件
+.env
+.env.local
+.env.*.local
+
+# 临时文件
+*.tmp
+*.temp 
+
+# 结果文件，api文件
+*.zip
+api信息.txt
+*.pdf
+*.ttf
+*.png
