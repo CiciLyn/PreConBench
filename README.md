@@ -53,6 +53,35 @@ bash scripts/run_controlled_experiment_turn.sh  \
     --num_thread 16
 ```
 
+**脚本作用总览**
+- 按目录顺序：core → data → scripts。
+
+- core
+  - `core/main.py`: 主入口，解析参数、读取数据、初始化模型，生成医患对话与病历并调用评测，保存结果。
+  - `core/models.py`: 模型封装，提供 GPTModel/AgentModel/HuatuoModel 与 Patient/Doctor 慢思考模型及对话接口。
+  - `core/dialog_manager.py`: 对话管理与流程控制，格式化提示词、维护对话记忆，轮次推进与病历生成，统计 token。
+  - `core/evaluate.py`: 评测模块，调用评测模型对病历规范性/正确性、对话规范性及病历真实性打分并返回 tokens。
+  - `core/data_utils.py`: 数据读取与整理，从 Excel/JSON 载入基准数据，整理字段并按性格模板扩展样本。
+  - `core/args_input.py`: 命令行参数与配置汇总，组织路径/模型/数值/模式参数，并装配对话/评测提示词（零/一样例）。
+  - `core/logger.py`: 日志初始化与控制台/文件输出配置。
+  - `core/calculate_score.py`: 结果后处理与统计，解析评测输出，计算模型均分、分组统计与 token 汇总，写入 JSON。
+
+- data
+  - `data/bench_data/extract_info.py`: 从真实病历抽取并重排主诉/现病史/既往史，支持失败样本重试，生成 `process_case.json`。
+  - `data/bench_data/bench_data.py`: 统计信息点与字数，划分难度标签，绘制分布并导出 `cases_counted*.json`。
+  - `data/prompts/patient.py`: 病人角色提示词与“性格”模板（含慢思考提示）。
+  - `data/prompts/doctor.py`: 医生角色提示词、最终病历生成提示与医生慢思考提示。
+  - `data/prompts/judge_record.py`: 病历规范性/正确性评测提示词（含零/一样例模板）。
+  - `data/prompts/judge_dialog.py`: 对话用语规范性评测提示与示例。
+  - `data/prompts/judge_basic.py`: 病历真实性（是否来源于对话）评测提示与示例。
+  - `data/prompts/dissect.py`: 主诉/现病史/既往史要素抽取与转述规则提示。
+
+- scripts
+  - `scripts/run_benchmark.sh`: 运行主实验全流程（对话生成+评测），参数见脚本。
+  - `scripts/run_controlled_experiment_turn.sh`: 运行“对话轮次”对比实验（3/8/15 轮）。
+  - `scripts/run_controlled_experiment_judge.sh`: 运行“不同评测模型”对比实验（仅评测阶段）。
+
+
 ### 3. 重要参数说明
 
 #### 必需参数：
